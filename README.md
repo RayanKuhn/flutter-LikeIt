@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # likeit
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# flutter-LikeIt
+>>>>>>> 46dafc76d53c9466faf12d8c8ff8c6846caec966
