@@ -11,7 +11,7 @@ class ApiService {
         'https://api.unsplash.com/photos',
         queryParameters: {
           'page': page,
-          'per_page': 10, // nombre d’images par page
+          'per_page': 12, // nombre d’images par page
           'client_id': unsplashAccessKey,
         },
       );

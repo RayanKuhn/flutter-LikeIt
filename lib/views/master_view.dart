@@ -21,6 +21,8 @@ class _MasterViewState extends State<MasterView> {
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
+  bool _isGridView = false;
+
 
   Future<void> _loadPage() async {
     if (_isLoading || !_hasMore) return;
@@ -54,18 +56,22 @@ class _MasterViewState extends State<MasterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor:
+            Theme.of(context).scaffoldBackgroundColor, // 👈 dynamique
         centerTitle: true,
         elevation: 2,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/likeit.png', height: 32),
+            Image.asset('assets/LogoMira.png', height: 32),
             const SizedBox(width: 10),
-            const Text(
-              'LikeIt',
+            Text(
+              'Mira',
               style: TextStyle(
-                color: Colors.black87,
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black87,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -74,12 +80,16 @@ class _MasterViewState extends State<MasterView> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite, color: Colors.white),
-            onPressed:
-                () => context.push(
-                  '/likes',
-                  extra: _images,
-                ),
+            icon: const Icon(Icons.favorite),
+            onPressed: () => context.push('/likes', extra: _images),
+          ),
+          IconButton(
+            icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
+            onPressed: () {
+              setState(() {
+                _isGridView = !_isGridView;
+              });
+            },
           ),
           const ThemeSwitcher(),
         ],
@@ -88,83 +98,143 @@ class _MasterViewState extends State<MasterView> {
       body:
           _images.isEmpty
               ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                padding: const EdgeInsets.only(
-                  bottom: 80,
-                ),
-                itemCount: _images.length,
-                itemBuilder: (context, index) {
-                  final image = _images[index];
-                  final likeProv = context.watch<LikeProvider>();
-                  final isLiked = likeProv.isLiked(image.id);
+              : (_isGridView
+                  ? GridView.builder(
+                    padding: const EdgeInsets.only(
+                      bottom: 80,
+                      left: 8,
+                      right: 8,
+                      top: 8,
+                    ),
+                    itemCount: _images.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                        ),
+                    itemBuilder: (context, index) {
+                      final image = _images[index];
+                      final likeProv = context.watch<LikeProvider>();
+                      final isLiked = likeProv.isLiked(image.id);
 
-                  return GestureDetector(
-                    onTap: () => context.push('/details', extra: image),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
+                      return GestureDetector(
+                        onTap: () => context.push('/details', extra: image),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Stack(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: CachedNetworkImage(
-                                  imageUrl: image.imageUrl,
-                                  placeholder:
-                                      (c, _) => const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                  errorWidget:
-                                      (c, _, __) => const Icon(Icons.error),
-                                  height: 300,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
+                              CachedNetworkImage(
+                                imageUrl: image.imageUrl,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
                               ),
-                              Positioned(
-                                top: 8,
-                                right: 8,
-                                child: GestureDetector(
-                                  onTap: () => likeProv.toggleLike(image.id),
-                                  child: Icon(
-                                    isLiked
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color:
-                                        isLiked
-                                            ? Colors.pinkAccent
-                                            : Colors.white,
-                                    size: 28,
-                                    shadows: const [
-                                      Shadow(
-                                        blurRadius: 4,
-                                        color: Colors.black,
-                                        offset: Offset(1, 1),
-                                      ),
-                                    ],
+                              if (!_isGridView)
+                                Positioned(
+                                  top: 4,
+                                  right: 4,
+                                  child: GestureDetector(
+                                    onTap: () => likeProv.toggleLike(image.id),
+                                    child: Icon(
+                                      isLiked
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color:
+                                          isLiked ? Colors.red : Colors.white,
+                                      size: 20,
+                                      shadows: const [
+                                        Shadow(
+                                          blurRadius: 3,
+                                          color: Colors.black,
+                                          offset: Offset(1, 1),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                  : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 80),
+                    itemCount: _images.length,
+                    itemBuilder: (context, index) {
+                      final image = _images[index];
+                      final likeProv = context.watch<LikeProvider>();
+                      final isLiked = likeProv.isLiked(image.id);
+
+                      return GestureDetector(
+                        onTap: () => context.push('/details', extra: image),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: CachedNetworkImage(
+                                      imageUrl: image.imageUrl,
+                                      placeholder:
+                                          (c, _) => const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                      errorWidget:
+                                          (c, _, __) => const Icon(Icons.error),
+                                      height: 300,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: GestureDetector(
+                                      onTap:
+                                          () => likeProv.toggleLike(image.id),
+                                      child: Icon(
+                                        isLiked
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color:
+                                            isLiked
+                                                ? Colors.pinkAccent
+                                                : Colors.white,
+                                        size: 28,
+                                        shadows: const [
+                                          Shadow(
+                                            blurRadius: 4,
+                                            color: Colors.black,
+                                            offset: Offset(1, 1),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Auteur : ${image.author}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Auteur : ${image.author}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                      );
+                    },
+                  )),
 
       floatingActionButton:
           _hasMore
