@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:likeit/widgets/theme_switcher.dart';
 import '../models/image_model.dart';
 import '../services/api_service.dart';
 import '../providers/like_provider.dart';
@@ -81,6 +81,7 @@ class _MasterViewState extends State<MasterView> {
                   extra: _images,
                 ),
           ),
+          const ThemeSwitcher(),
         ],
       ),
 

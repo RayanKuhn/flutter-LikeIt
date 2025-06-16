@@ -4,6 +4,7 @@ import 'package:likeit/providers/like_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import 'package:likeit/widgets/theme_switcher.dart';
 
 class LikesView extends StatelessWidget {
   final List<ImageModel> allImages;
@@ -18,13 +19,20 @@ class LikesView extends StatelessWidget {
 
     if (likedImages.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Mes Likes')),
+        appBar: AppBar(title: Text('Mes Likes'),
+        actions: [
+          const ThemeSwitcher(),
+        ],),
         body: Center(child: Text('Aucune image likée.')),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mes Likes')),
+      appBar: AppBar(title: const Text('Mes Likes'),
+        actions: [
+          const ThemeSwitcher(),
+        ],
+      ),
       body: ListView.builder(
         itemCount: likedImages.length,
         itemBuilder: (context, index) {

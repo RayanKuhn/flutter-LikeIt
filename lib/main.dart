@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:likeit/views/likes_view.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'models/image_model.dart';
-
 import 'providers/like_provider.dart';
+import 'providers/theme_provider.dart';
 import 'views/master_view.dart';
 import 'views/details_view.dart';
+import 'views/likes_view.dart';
 
 void main() {
-  runApp(const LikeItApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LikeProvider()),
+      ],
+      child: const LikeItApp(),
+    ),
+  );
 }
 
 class LikeItApp extends StatelessWidget {
@@ -17,13 +25,16 @@ class LikeItApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => LikeProvider())],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.pink),
-        routerConfig: _router,
-      ),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, _) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          routerConfig: _router,
+        );
+      },
     );
   }
 }
