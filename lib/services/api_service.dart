@@ -12,7 +12,7 @@ class ApiService {
         queryParameters: {
           'page': page,
           'per_page': 12, // nombre d’images par page
-          'client_id': unsplashAccessKey,
+          'client_id': Secrets.unsplashApiKey,
         },
       );
 

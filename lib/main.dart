@@ -4,11 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'models/image_model.dart';
 import 'providers/like_provider.dart';
 import 'providers/theme_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'views/master_view.dart';
 import 'views/details_view.dart';
 import 'views/likes_view.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   runApp(
     MultiProvider(
       providers: [
