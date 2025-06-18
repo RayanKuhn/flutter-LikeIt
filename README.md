@@ -31,7 +31,6 @@ The project was built as a clean, responsive showcase with a strong focus on use
 |-------------------|-------------------|-----------|
 | ![list](screenshots/list_view.png) | ![grid](screenshots/grid_view.png) | ![dark](screenshots/dark_mode.png) |
 
-> *Add screenshots to a `/screenshots/` folder to display them here.*
 
 ## 🚀 Getting started
 
