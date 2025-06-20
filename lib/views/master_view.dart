@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:likeit/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -57,7 +58,7 @@ class _MasterViewState extends State<MasterView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor, // 👈 dynamique
+            Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         elevation: 2,
         title: Row(
@@ -79,20 +80,37 @@ class _MasterViewState extends State<MasterView> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () => context.push('/likes', extra: _images),
-          ),
-          IconButton(
-            icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
-            onPressed: () {
-              setState(() {
-                _isGridView = !_isGridView;
-              });
+          Consumer<AuthProvider>(
+            builder: (context, auth, _) {
+              return Row(
+                children: [
+                  if (auth.isLoggedIn) ...[
+                    IconButton(
+                      icon: const Icon(Icons.favorite),
+                      onPressed: () => context.push('/likes', extra: _images),
+                    ),
+                  ],
+                  IconButton(
+                    icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
+                    onPressed: () {
+                      setState(() {
+                        _isGridView = !_isGridView;
+                      });
+                    },
+                  ),
+                  const ThemeSwitcher(),
+                  IconButton(
+                    icon: Icon(auth.isLoggedIn ? Icons.person : Icons.login),
+                    onPressed: () {
+                      context.go(auth.isLoggedIn ? '/profile' : '/login');
+                    },
+                  ),
+                ],
+              );
             },
           ),
-          const ThemeSwitcher(),
         ],
+
       ),
 
       body:

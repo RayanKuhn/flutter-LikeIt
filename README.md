@@ -1,15 +1,17 @@
 # Mira 📷✨ | EN
 
 **Mira** is a Flutter image-exploration app inspired by Instagram.  
-Browse a live gallery, like photos, switch between light / dark themes, and toggle list- or grid-style layouts.  
-The project was built as a clean, responsive showcase with a strong focus on user experience.
+Browse a live gallery, like photos, log in, switch themes, and toggle list- or grid-style layouts.  
+Built as a clean, responsive showcase with a strong focus on user experience.
 
 ## 🔥 Key features
 
 - 🔍 Displays photos from the Unsplash API
+- 🔑 **Email / password authentication (Supabase)**
+- ♻️ **Session persistence** – reopen the app and you’re still logged in
 - ❤️ Like / unlike system (state handled with Provider)
-- 🌗 Light mode & Dark mode (via a Theme Switcher)
-- 🖼️ List-oriented feed **or** 3-column grid view—switchable on the fly
+- 🌗 Light & Dark modes (Theme Switcher)
+- 🖼️ List-feed **or** 3-column grid view—switchable on the fly
 - 🔁 Infinite scroll with a “Load more” button
 - 🧭 Smooth navigation using GoRouter (deep-link ready)
 - 🔍 Detail screen for every photo
@@ -22,15 +24,16 @@ The project was built as a clean, responsive showcase with a strong focus on use
 | **Flutter 3+** | Cross-platform framework |
 | `provider` | Global / local state management |
 | `go_router` | Declarative routing & deep links |
+| `dio` | REST calls (Unsplash + Supabase Auth endpoints) |
 | `cached_network_image` | Fast image loading & caching |
-| `dio` + `http` | REST calls to Unsplash API |
+| `shared_preferences` | Persist user session locally |
 
 ## 📸 Screenshots
+*(light / grid / dark examples – update if you grab new shots)*
 
-| MasterView – List | MasterView – Grid | Dark Mode |
-|-------------------|-------------------|-----------|
+| Home – List | Home – Grid | Dark Mode |
+|-------------|------------|-----------|
 | ![list](screenshots/list_view.png) | ![grid](screenshots/grid_view.png) | ![dark](screenshots/dark_mode.png) |
-
 
 ## 🚀 Getting started
 
@@ -39,40 +42,48 @@ flutter pub get
 flutter run
 ```
 
-🤝 About the project
-Mira was built solo in under 48 hours during an accelerated learning sprint—aiming for clean code, modern UI, and a smooth mobile experience.
+---
 
-👤 Developed by @RayanKuhn
-📫 Professional contact available on my GitHub profile
+## 🤝 About the project
+Mira was built solo in under 48 hours during an accelerated learning sprint—aiming for clean code, modern UI, and a smooth multi-device experience.
+
+👤 Developed by **@RayanKuhn**  
+📫 See GitHub profile for professional contact
 
 
-# Mira 📷✨|FR
+# Mira 📷✨ | FR
 
-**Mira** est une application Flutter d’exploration d’images inspirée d’Instagram. Elle permet de parcourir une galerie dynamique, de liker des photos, de changer de thème (dark/light) et de basculer entre un affichage en liste ou en grille. Ce projet a été conçu comme une vitrine personnelle, propre et responsive, avec une attention particulière portée à l’expérience utilisateur.
+**Mira** est une application Flutter d’exploration d’images inspirée d’Instagram.  
+Galerie dynamique, likes, connexion e-mail, changement de thème (dark / light) et bascule liste / grille : tout est là. Le projet se veut propre, responsive et axé UX.
 
 ## 🔥 Fonctions principales
 
-- 🔍 Affichage d’images depuis l’API Unsplash
-- ❤️ Système de like avec persistance en mémoire (Provider)
-- 🌙 Light mode / Dark mode (avec ThemeSwitcher)
-- 📱 Affichage en liste ou en grille à la Instagram
-- 🔁 Scroll infini avec bouton "Charger plus"
+- 🔍 Affichage d’images via l’API Unsplash
+- 🔑 **Authentification e-mail / mot de passe (Supabase)**
+- ♻️ **Persistance de session** – l’utilisateur reste connecté après redémarrage
+- ❤️ Système de likes (Provider)
+- 🌙 Mode clair / sombre (ThemeSwitcher)
+- 📱 Affichage en liste ou en grille type Instagram
+- 🔁 Scroll infini avec bouton « Charger plus »
 - 🧭 Navigation fluide (GoRouter)
-- 🖼️ Page de détails pour chaque image
-- ⚙️ Architecture propre avec séparation logique (services, providers, widgets)
+- 🖼️ Écran de détails pour chaque image
+- ⚙️ Architecture propre (services, providers, widgets réutilisables)
 
 ## 🧪 Techs & packages utilisés
 
-- Flutter 3+
-- `provider` pour la gestion d’état
-- `go_router` pour la navigation
-- `cached_network_image` pour un chargement performant
-- `http` pour les appels API Unsplash
+| Tech / Package | Rôle |
+|----------------|------|
+| **Flutter 3+** | Framework multiplateforme |
+| `provider` | Gestion d’état |
+| `go_router` | Routage déclaratif |
+| `dio` | Appels REST (Unsplash + Supabase) |
+| `cached_network_image` | Cache et chargement d’images |
+| `shared_preferences` | Stockage local du token de session |
 
 ## 📸 Aperçus
 
-| MasterView (Liste) | MasterView (Grille) | Mode sombre |
-|-------------------|---------------------|-------------|
+| Accueil (Liste) | Accueil (Grille) | Mode sombre |
+|-----------------|------------------|-------------|
 | ![list](screenshots/list_view.png) | ![grid](screenshots/grid_view.png) | ![dark](screenshots/dark_mode.png) |
 
 ## 🚀 Lancer le projet
@@ -82,11 +93,11 @@ flutter pub get
 flutter run
 ```
 
-## 🤝 A propos
+## 🤝 À propos
 
-Ce projet a été réalisé en solo en moins de 48h dans un cadre pédagogique accéléré, avec une logique de qualité de code et une volonté de proposer un rendu visuellement moderne.
+Projet réalisé en solo en moins de 48 h dans un contexte pédagogique accéléré, avec une forte exigence de qualité de code et de design moderne.
 
-👤 Développé par @RayanKuhn
-📫 Contact pro disponible sur mon profil GitHub
+👤 Développé par **@RayanKuhn**  
+📫 Contact pro disponible sur le profil GitHub
 
 
